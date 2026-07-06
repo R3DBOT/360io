@@ -1,25 +1,82 @@
 # 360io
 
-360io is a Gamescope-native console environment for CachyOS. Its Qt Quick
-shell is intended to replace KDE Plasma in the dedicated session while Linux
-services such as NetworkManager, PipeWire and the graphics drivers continue to
-run underneath it.
+360io is a Gamescope-native console environment for Linux focused on recreating
+the complete Xbox 360 console experience on modern hardware. It replaces the
+traditional desktop with a controller-first shell while Linux services such as
+NetworkManager, PipeWire and the graphics stack continue running underneath.
 
-The project is being rebuilt in small, verifiable stages. The current Stage 1
-contains only:
+The project combines a native Qt 6/QML interface with modern Linux gaming
+technologies to provide a dedicated console operating environment designed for
+controllers, fast boot, and seamless game launching.
 
-- a hardware-accelerated Qt 6/QML shell with no WebEngine or Chromium;
-- the 1600x900 Sign-In screen and keyboard navigation;
-- a `QAbstractListModel` that discovers real Linux accounts under `/home`;
-- local avatar discovery with the bundled classic avatar as a fallback;
-- the final `Create Profile` action, currently exposed as a safe request;
-- an unprivileged `360iod` daemon skeleton for later system coordination.
+## Planned features
 
-## Build on CachyOS
+The long-term goal of 360io includes:
+
+- a fully hardware-accelerated Qt Quick shell running directly inside Gamescope;
+- a dashboard experience inspired by the Xbox 360 user interface;
+- Sign-In, Guide, Profile and System blades;
+- local profiles with customizable gamer pictures and 3D avatars;
+- native avatar rendering using Qt Quick 3D and glTF 2.0 assets;
+- controller-first navigation throughout the entire operating system;
+- integrated game library supporting native Linux games, Steam, Xenia and
+  additional gaming platforms;
+- achievement integration with profile progression and avatar customization;
+- optional Kinect support;
+- optional optical drive support;
+- dedicated boot and shutdown experience;
+- fast, appliance-like startup with no traditional desktop session.
+
+## Architecture
+
+360io consists of several independent components:
+
+- **360io Shell** — the graphical Qt Quick interface.
+- **360iod** — an unprivileged background daemon responsible for system
+  coordination.
+- **Avatar Engine** — avatar rendering, asset management and model conversion.
+- **Profile Manager** — local user discovery and profile management.
+- **Game Library** — launcher integration and library indexing.
+- **System Services** — session management, updates and hardware integration.
+
+## Current status
+
+Development is progressing through small, verifiable milestones.
+
+Current progress includes:
+
+- hardware-accelerated Qt 6/QML shell;
+- Gamescope-native execution;
+- Sign-In screen;
+- controller keyboard navigation;
+- Linux user discovery;
+- local avatar discovery;
+- Qt Quick 3D avatar rendering;
+- avatar model parser and conversion research;
+- unprivileged 360iod daemon foundation.
+
+Additional dashboard components, avatar editing, Guide functionality,
+achievement integration and hardware support are currently under active
+development.
+
+## Design goals
+
+360io is designed around the following principles:
+
+- controller-first interaction;
+- native Linux technologies;
+- no Chromium or embedded web interfaces;
+- modular architecture;
+- modern hardware support;
+- console-like responsiveness;
+- faithful recreation of the Xbox 360 user experience.
+
+## Build
 
 ```sh
 sudo pacman -S --needed base-devel cmake gamescope ninja \
   qt6-base qt6-declarative
+
 cmake -S . -B build -G Ninja -DCMAKE_BUILD_TYPE=Release
 cmake --build build
 ```
@@ -30,26 +87,6 @@ Run the shell inside Gamescope:
 gamescope -f -r 60 -w 1600 -h 900 -W 1600 -H 900 -- ./build/360io-shell
 ```
 
-`QT_QPA_PLATFORM=wayland` is selected by the shell before Qt starts. The
-dedicated session command is available at `packaging/arch/360io-session`.
+## License
 
-## Profile mapping
-
-Every directory in `/home` becomes one Sign-In profile. Avatar lookup is local
-and ordered as follows:
-
-1. `~/.face` or `~/.face.icon`;
-2. `~/.config/360io/avatar.png` or `avatar.jpg`;
-3. a matching file in `assets/dashx360/Profile/Profiles/`;
-4. `assets/dashx360/Profile/profilepicture.jpg`.
-
-The full-body Sign-In avatar is a live Qt Quick 3D scene, independent from the
-square gamer picture. The avatar editor will generate a standardized glTF 2.0
-binary model at `~/.local/share/360io/avatar/avatar.glb`. The Sign-In scene
-loads that model directly, preserves its rig and animations, and displays a
-neutral procedural 3D mannequin while the profile has no generated model.
-
-For isolated tests, `THREESIXTY_HOME_ROOT` and `THREESIXTY_ASSET_ROOT` can
-point the model at temporary directories. Creating an operating-system account
-will later be performed by an authenticated helper; the graphical shell never
-runs user-management commands as root.
+See the LICENSE file for licensing information.
