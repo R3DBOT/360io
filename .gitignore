@@ -1,69 +1,57 @@
-# Prerequisites
-*.d
+/.agents/
+/.codex/
+/.vs/
+/.vscode/
+/.idea/
 
-# Compiled Object files
-*.slo
-*.lo
-*.o
-*.obj
-
-# Precompiled Headers
-*.gch
-*.pch
-
-# Linker files
-*.ilk
-
-# Debugger Files
-*.pdb
-
-# Compiled Dynamic libraries
-*.so
-*.dylib
-*.dll
-*.so.*
-
-
-# Fortran module files
-*.mod
-*.smod
-
-# Compiled Static libraries
-*.lai
-*.la
-*.a
-*.lib
-
-# Executables
-*.exe
-*.out
-*.app
-
-# Build directories
-build/
-Build/
-build-*/
-
-# CMake generated files
-CMakeFiles/
+/build/
+/build-*/
+/cmake-build-*/
+/CMakeFiles/
 CMakeCache.txt
 cmake_install.cmake
-Makefile
-install_manifest.txt
+build.ninja
+.ninja_deps
+.ninja_log
 compile_commands.json
 
-# Temporary files
-*.tmp
+*.o
+*.obj
+*.a
+*.lib
+*.so
+*.dll
+*.exe
+*.res
+*.pdb
+*.ilk
+*.exp
+
+/assets/avatars/
+/assets/dashx360/
+/assets/personal/
+
+*.iso
+*.xex
+*.xcp
+*.zar
+*.7z
+*.rar
+*.zip
+
+.env
+.env.*
+*.token
+*.secret
+credentials*.json
+profile*.json
+
 *.log
-*.bak
-*.swp
+*.tmp
+*.cache
+avatar-native-probe.txt
+360io-avatar-probe.txt
 
-# vcpkg
-vcpkg_installed/
-
-# debug information files
-*.dwo
-
-# test output & cache
-Testing/
-.cache/
+.DS_Store
+Thumbs.db
+desktop.ini
